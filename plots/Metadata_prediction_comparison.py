@@ -18,17 +18,19 @@ fig, axs = plt.subplots(2, 6, figsize=(20, 13))
 
 fig.suptitle('Metadata Prediction Model Comparison: GPT-4 vs Rule-Based', fontsize=24, y=1)
 
-for row, result, method in zip(axs, [results_gpt4, results_rule_based], ['GPT-4', 'Rule-Based']):
-    for ax, counts, color, title in zip(row, result, colors, titles):
+for index_row, (row, result, method) in enumerate(zip(axs, [results_gpt4, results_rule_based], ['GPT-4', 'Rule-Based'])):
+    for index_ax, (ax, counts, color, title) in enumerate(zip(row, result, colors, titles)):
         ax.bar(categories, counts, color=color)
         add_labels(ax, counts, fontsize=14)
         ax.set_title(title, fontsize=17)
         ax.set_ylim(0, max(counts) * 1.2)
         ax.tick_params(axis='x', labelsize=14)
         ax.set_ylabel('Number of Tags', fontsize=17)
-        ax.legend([f'Total ({method}): {sum(counts)}'], loc='upper right', fontsize=11.5)
-
-plt.tight_layout(rect=[0, 0.15, 1, 1])
+        ax.legend([f'Total: {sum(counts)}'], loc='upper right', fontsize=13)
+        if index_ax == 0:
+            ax.annotate(method, xy=(-0.4, 0), xytext=(-0.3, 0.5),
+                        textcoords='axes fraction', ha='right', va='center', 
+                        fontsize=21, rotation='vertical')
 
 plt.savefig('./Metadata Prediction Comparison')
 plt.show()
